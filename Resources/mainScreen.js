@@ -1,4 +1,5 @@
 
+var Cloud = require('ti.cloud');
 var mainScreenWin = Titanium.UI.currentWindow;
 //Create the view for the app or it doesn't display anything but the window
 var mainView = Titanium.UI.createView();
@@ -55,6 +56,13 @@ loginButton.addEventListener('click',function(e){
 	mainScreenWin.close();
 	toDoList.open();
 });
+//-------------------------------------------------------DATABASE------------------------------------------------------------------------
+//=======================================================================================================================================
+
+
+
+
+
 
 
 //-------------------------------------------------------TO DO SCREEN--------------------------------------------------------------------
@@ -291,22 +299,74 @@ var signUpTitle = Ti.UI.createLabel({
 	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 });
 
-var signUpName = Ti.UI.createTextField({
-	color: '#3333333',
-	hintText: 'Name',
+var userName = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Your username',
+	height: 70,
+	width: 250,
+	top: 50,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+
+var password = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Your password',
+	height: 70,
+	width: 250,
+	top: 100,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+
+var passwordConfirm = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Psst...its the same thing as above',
+	height: 70,
+	width: 250,
+	top: 150,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+var firstName = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'First Name',
 	height: 70,
 	width: 250,
 	top: 200,
-	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
 });
 
-var signUpEmail = Ti.UI.createTextField({
-	color: '#3333333',
+var lastName = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Last Name',
+	height: 70,
+	width: 250,
+	top: 250,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+
+var email = Ti.UI.createTextField({
+	color: 'black',
 	hintText: 'Email',
 	height: 70,
 	width: 250,
 	top: 300,
-	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_EMAIL
+});
+
+
+signUpWin.addEventListener("click", function(e){
+	firstName.blur();
+});
+signUpWin.addEventListener("click", function(e){
+	lastName.blur();
+});
+signUpWin.addEventListener("click", function(e){
+	email.blur();
 });
 
 //The following are variables to get the current day, month and year
@@ -369,26 +429,43 @@ var personalInfoButton = Ti.UI.createButton({
 });
 
 
-
-
-
-
-
-
-//Needs LOTS of fixing
-/*
 personalInfoButton.addEventListener('click',function(e){
-	
+
+Cloud.Users.create({
+	username: userName.value,
+	password: password.value,
+	password_confirmation: passwordConfirm.value,
+    email: email.value,
+    first_name: firstName.value,
+    last_name: lastName.value,
+    weddingDate: weddingDateResult.value
+}, function (e) {
+    if (e.success) {
+        var user = e.users[0];
+        alert('Success:\n' +
+            'id: ' + user.id + '\n' +
+            'sessionId: ' + Cloud.sessionId + '\n' +
+            'first name: ' + user.first_name + '\n' +
+            'last name: ' + user.last_name);
+    } else {
+        alert('Error:\n' +
+            ((e.error && e.message) || JSON.stringify(e)));
+    }
 });
-*/
+
 
 //Top Bar for main screen
 signUpTopView.add(smallLogoImage);
 signUpTopView.add(signUpTitle);
 
 //Add the text fields to the view
-signUpView.add(signUpName);
-signUpView.add(signUpEmail);
+signUpView.add(userName);
+signUpView.add(password);
+signUpView.add(passwordConfirm);
+signUpView.add(firstName);
+signUpView.add(lastName);
+
+signUpView.add(email);
 signUpView.add(weddingDateResult);
 signUpView.add(weddingDate);
 

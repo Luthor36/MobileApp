@@ -1,6 +1,14 @@
 
 var Cloud = require('ti.cloud');
 
+//Integrating Moment.js into the app
+
+/*npm install moment;
+
+var moment = require('moment');
+moment().format();
+*/
+
 var mainScreenWin = Titanium.UI.currentWindow;
 //Create the view for the app or it doesn't display anything but the window
 var mainView = Titanium.UI.createView();
@@ -178,9 +186,18 @@ while(sql.isValidRow()) {
 	
 }
 */
-/*
+//--------------------------------------------------------TO DO SCREEN----------------------------------------------------
+//========================================================================================================================
+
+var toDoList = Ti.UI.createTabGroup();
+
 var toDoTab1win = Ti.UI.createWindow({
 	title: 'To Do',
+	backgroundColor: 'white',
+});
+
+var viewTab1 = Ti.UI.createView({
+	layout: 'vertical',
 	backgroundColor: 'white'
 });
 
@@ -189,6 +206,10 @@ var toDoTab2win = Ti.UI.createWindow({
 	backgroundColor: 'white'
 });
 
+var viewTab2 = Ti.UI.createView({
+	layout: 'vertical',
+	backgroundColor: 'white'
+});
 
 var toDo = Ti.UI.createTab({
 	title: 'To Do',
@@ -202,13 +223,144 @@ var doneToDo = Ti.UI.createTab({
 	window: toDoTab2win
 });
 
+//We need a function to create the custom objects
+function createTasks(x,y/*monthsTillDue*/)
+{
+Cloud.Objects.create({
+    classname: 'tasks',
+    fields: {
+        taskName: x,
+        taskDescription: y,
+        taskStatus: 0,
+        //dueDate: weddingDateResult.subtract('months', monthsTillDue).diff()
+    }
+}, function (e) {
+    if (e.success) {
+        var task = e.tasks[0];
+        alert('Success:\n' +
+            'id: ' + task.id + '\n' +
+            'Task: ' + task.taskName + '\n' +
+            'Description: ' + task.taskDescription /*+ '\n' +
+            'Days Left: ' + task.dueDate*/);
+            
+            var taskLabel = Ti.UI.createLabel({
+            	text: task.taskName.value
+            });
+            
+            
+    } else {
+        alert('Error:\n' +
+            ((e.error && e.message) || JSON.stringify(e)));
+    }
+});
+};
+
+//Tasks 9-16 months in advance
+createTasks('Start a wedding folder or binder', 'Begin leafing through bridal, lifestyle, fashion, gardening, design, and food magazines for inspiration');
+createTasks('Work out your budget', 'Determine how much you have to spend, based on your families’ contributions and your own');
+createTasks('Pick your wedding party', 'As soon as you’re engaged, people will start wondering who’s in');
+createTasks('Start the guest list','Make a head count database to use throughout your planning process, with columns for contact info, RSVPs, gifts, and any other relevant information. (Want to keep costs low? It may be brutal, but the best way to do it is to reduce your guest list)');
+createTasks('Reserve your date and venues','Decide whether to have separate locations for the ceremony and the reception, factoring in travel time between the two places');
+createTasks('Book your officiant', 'Book your officiant');
+createTasks('Research photographers','Keep their contact information in your binder');
+createTasks('Research caterers','Keep their contact information in your binder');
+createTasks('Research bands','Keep their contact information in your binder');
+createTasks('Research florists','Keep their contact information in your binder');
+createTasks('Throw an engagement party, if you wish','But remember that your invitees should be on your wedding guest list as well');
+
+//Tasks 8 months in advance
+createTasks('Hire the photographer/videographer', 'No need to talk specifics yet, but be sure that the people you hire are open to doing the shots that you want');
+createTasks('Book the entertainment','Attend gigs of potential acts to see how they perform in front of audiences, then reserve your favorite');
+createTasks('Meet caterers','If your wedding venue doesn’t offer its own catering service, look for one now and hire the service this month or early next');
+createTasks('Purchase a dress','You’ll need to schedule time for at least three fittings. Veil shopping can be postponed for another two to three months');
+createTasks('Reserve a block of hotel rooms for out-of-town guests','Pick three hotels at different price points close to the reception venue');
+createTasks('Register','Sign up at a minimum of three retailers');
+createTasks('Launch a wedding website','Create your personal page through a free provider such as weddingchannel.com. Note the date of the wedding, travel information, and accommodations. Then send the link to invitees.');
+
+//Tasks 7 months in advance
+createTasks('Select and purchase invitations','Hire a calligrapher, if desired. Addressing cards is time-consuming, so you need to budget accordingly.');
+createTasks('Start planning a honeymoon','Make sure that your passports are up-to-date, and schedule doctors’ appointments for any shots you may need');
+createTasks('Shop for bridesmaids’ dresses','Allow at least six months for the dresses to be ordered and sized');
+createTasks('Meet with the officiant','Map out the ceremony and confirm that you have all the official documents for the wedding (these vary by country and religion).');
+
+//Tasks 6 months in advance
+createTasks('Send save-the-date cards');
+createTasks('Reserve structural and electrical necessities','Book portable toilets for outdoor events, extra chairs if you need them, lighting components, and so on.');
+createTasks('Book a florist','Florists can serve multiple clients on one day, which is why you can wait a little longer to engage one. Plus, at this point, you’ll be firm on what your wedding palette will be.');
+createTasks('Arrange transportation','Consider limos, minibuses, trolleys, and town cars. (But know that low-to-the-ground limos can make entries and exits dicey if you’re wearing a fitted gown.)');
+createTasks('Start composing a day-of timeline','Draw up a schedule of the event and slot in each component (the cake-cutting, the first dance).');
+
+//Tasks 5 months in advance
+createTasks('Book the rehearsal and rehearsal-dinner venues','Negotiate the cost and the menu. If you’re planning to host a day-after brunch for guests, book that place as well.');
+createTasks('Check on the wedding invitations','Ask the stationer for samples of the finished invitations and revise them to suit your needs.');
+createTasks('Select and order the cake','Some bakers require a long lead time. Attend several tastings before committing to any baker.');
+createTasks('Send your guest list to the host of your shower','Provided you, ahem, know about the shower.');
+
+//Tasks 4 months in advance
+createTasks('Purchase wedding shoes and start dress fittings','Bring the shoes along to your first fitting so the tailor can choose the appropriate length for your gown.');
+createTasks('Schedule hair and makeup artists','Make a few appointments with local experts to try them out. Snap a photo at each so you can compare results.');
+createTasks('Choose your music','What should be playing when the wedding party is announced? During dinner? To kick off the dancing? Keep a running list of what you want—and do not want—played.');
+
+//Tasks 3 months in advance
+createTasks('Finalize the menu','You’ll want to wait until now to see what will be available, since food and flowers are affected by season.');
+createTasks('Finalize the flowers','You’ll want to wait until now to see what will be available, since food and flowers are affected by season.');
+createTasks('Order favors, if desired','Some safe bets: monogrammed cookies or a treat that represents your city or region. If you’re planning to have welcome baskets for out-of-town guests, plan those now too.');
+createTasks('Make a list of the people giving toasts','Which loved ones would you like to have speak at the reception? Ask them now.');
+createTasks('Finalize the readings','Determine what you would like to have read at the ceremony—and whom you wish to do the readings.');
+createTasks('Purchase your undergarments','And schedule your second fitting.');
+createTasks('Finalize the order of the ceremony and the reception');
+createTasks('Print menu cards','No need to go to a printer, if that’s not in your budget: You can easily create these on your computer.');
+createTasks('Purchase the rings','This will give you time for resizing and engraving.');
+createTasks('Send your event schedule to the vendors','Giving them a first draft now allows ample time for tweaks and feedback.');
+
+//Tasks 2 months in advance
+createTasks('Touch base again with all the vendors','Make sure any questions you or they had on your first draft have been answered.');
+createTasks('Meet with the photographer','Discuss specific shots, and walk through the locations to note spots that appeal to you.');
+createTasks('Review the playlist with the band or deejay','Though you probably won’t be able to dictate every single song played, you should come prepared with a wish list.');
+createTasks('Send out the invitations','The rule of thumb: Mail invitations six to eight weeks before the ceremony, setting the RSVP cutoff at three weeks after the postmark date.');
+createTasks('Submit a newspaper wedding announcement','If you’re planning to include a photograph, check the publication’s website: Some have strict rules about how the photo should look.');
+createTasks('Enjoy a bachelorette party','Arranging a night out with your girlfriends generally falls to the maid of honor. But if she hasn’t mentioned one to you by now, feel free to ask—for scheduling purposes, of course!—if a celebration is in the works.');
+
+//Tasks 1 month in advance
+createTasks('Enter RSVPs into your guest-list database','Phone people who have not yet responded');
+createTasks('Get your marriage license','The process can take up to six days, but it’s good to give yourself some leeway. If you are changing your name, order several copies.');
+createTasks('Mail the rehearsal-dinner invitations');
+createTasks('Visit the dressmaker for (with luck!) your last dress fitting','For peace of mind, you may want to schedule a fitting the week of your wedding. You can always cancel the appointment if you try on the dress then and it fits perfectly.');
+createTasks('Stock the bar','Now that you have a firm head count you can order accordingly.');
+createTasks('Send out as many final payments as you can');
+createTasks('Confirm times for hair and makeup and all vendors');
+createTasks('E-mail and print directions for drivers of transport vehicles','This gives the chauffeurs ample time to navigate a route.');
+createTasks('Assign seating','Draw out table shapes on a layout of the room to help plan place settings. Write the names of female guests on pink sticky notes and the names of male guests on blue sticky notes so you can move people about without resketching the entire setting.');
+createTasks('Purchase bridesmaids’ gifts','You’ll present them at the rehearsal dinner.');
+createTasks('Write vows, if necessary');
+createTasks('Get your hair cut and colored, if desired');
+
+//Tasks the week of
+createTasks('Reconfirm arrival times with vendors');
+createTasks('Delegate small wedding-day tasks','Choose someone to bustle your dress, someone to carry your things, someone to be in charge of gifts (especially the enveloped sort), someone to hand out tips, and someone to be the point person for each vendor.');
+createTasks('Send a timeline to the bridal party','Include every member’s contact information, along with the point people you’ve asked to deal with the vendors, if problems arise.');
+createTasks('Pick up your dress','Or make arrangements for a delivery.');
+createTasks('Check in one last time with the photographer','Supply him or her with a list of moments you want captured on film.');
+createTasks('Set aside checks for the vendors','And put tips in envelopes to be handed out at the event.');
+createTasks('Book a spa treatment','Make an appontment for a manicure and a pedicure the day before the wedding. (You might want to get a stress-relieving massage, too.)');
+createTasks('Send the final guest list to the caterer and all venues hosting your wedding-related events','Typically, companies close their lists 72 hours in advance.');
+createTasks('Break in your shoes');
+createTasks('Assemble and distribute the welcome baskets');
+createTasks('Pack for your honeymoon');
+
+
+
+
 toDoList.addTab(toDo);
 toDoList.addTab(doneToDo);
 
-*/
+/*
 toDoTopView.add(smallLogoImage);
-//toDoTopView.add(toDoTitle);
+toDoTopView.add(toDoTitle);
+*/
 
+toDoTab1win.add(viewTab1);
+toDoTab2win.add(viewTab2);
 
 toDoWin.add(toDoTopView);
 toDoWin.add(toDoView);
@@ -358,12 +510,9 @@ Cloud.Users.login({
     password: loginPassword.value
 }, function (e) {
     if (e.success) {
-        var user = e.users[0];
-        alert('Success:\n' +
-            'id: ' + user.id + '\n' +
-            'sessionId: ' + Cloud.sessionId + '\n' +
-            'first name: ' + user.first_name + '\n' +
-            'last name: ' + user.last_name);
+        
+            loginWin.close();
+            toDoList.open();
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
@@ -500,7 +649,15 @@ var email = Ti.UI.createTextField({
 	keyboardType: Ti.UI.KEYBOARD_EMAIL
 });
 
-
+signUpWin.addEventListener("click", function(e){
+	userName.blur();
+});
+signUpWin.addEventListener("click", function(e){
+	password.blur();
+});
+signUpWin.addEventListener("click", function(e){
+	passwordConfirm.blur();
+});
 signUpWin.addEventListener("click", function(e){
 	firstName.blur();
 });
@@ -558,7 +715,7 @@ var weddingDate = Ti.UI.createPicker({
 });
 
 weddingDate.addEventListener("change",function(e){
-	weddingDateResult.text = e.value;
+	weddingDateResult.value = e.value;
 });
 
 var personalInfoButton = Ti.UI.createButton({
@@ -589,6 +746,10 @@ Cloud.Users.create({
             'sessionId: ' + Cloud.sessionId + '\n' +
             'first name: ' + user.first_name + '\n' +
             'last name: ' + user.last_name);
+            
+            signUpWin.close();
+            loginWin.open();
+            
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));

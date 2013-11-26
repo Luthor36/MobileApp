@@ -1,0 +1,10 @@
+android/ATTR_MINIFY=true
+android/ATTR_PROJECT_NAME=BridalBuddyApp
+android/abi=armeabi
+android/distribute_path=C\:\\Users\\Audie\\Desktop
+android/keystore_alias=bb
+android/keystore_password=SAM4ANS3N
+android/keystore_path=C\:\\Users\\Audie\\Desktop\\BridalBuddy
+android/recent_output=C\:\\Users\\Audie\\Desktop
+android/sdk_version=Google APIs (Android 2.3.3)
+eclipse.preferences.version=1

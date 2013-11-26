@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS "todo";
+CREATE TABLE todo (item text, done integer);
+INSERT INTO "todo" VALUES('Start a wedding folder or binder',0);
+INSERT INTO "todo" VALUES('Work out your budget',0);
+INSERT INTO "todo" VALUES('Pick your wedding party',0);
+INSERT INTO "todo" VALUES('Start the guest list',0);
+INSERT INTO "todo" VALUES('Create a Titanium app',1);

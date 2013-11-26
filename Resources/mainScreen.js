@@ -1,5 +1,6 @@
 
 var Cloud = require('ti.cloud');
+
 var mainScreenWin = Titanium.UI.currentWindow;
 //Create the view for the app or it doesn't display anything but the window
 var mainView = Titanium.UI.createView();
@@ -43,7 +44,7 @@ var logoImage = Titanium.UI.createImageView({
 
 
 //Let's create a button for the app
-var loginButton = Titanium.UI.createButton({
+var toLoginButton = Titanium.UI.createButton({
 	title: 'Login',
 	height: 45,
 	width: 200,
@@ -52,9 +53,9 @@ var loginButton = Titanium.UI.createButton({
 	backgroundColor: '#1589FF'
 });
 
-loginButton.addEventListener('click',function(e){
+toLoginButton.addEventListener('click',function(e){
 	mainScreenWin.close();
-	toDoList.open();
+	loginWin.open();
 });
 //-------------------------------------------------------DATABASE------------------------------------------------------------------------
 //=======================================================================================================================================
@@ -68,12 +69,12 @@ loginButton.addEventListener('click',function(e){
 //-------------------------------------------------------TO DO SCREEN--------------------------------------------------------------------
 //=======================================================================================================================================
 
-/*
+
 var toDoWin = Ti.UI.createWindow({
 	backgroundColor: 'white'
 });
 var toDoView = Titanium.UI.createView();
-*/
+
 
 var toDoTopView = Titanium.UI.createView({
 	backgroundColor: 'purple',
@@ -88,7 +89,7 @@ var smallLogoImage = Titanium.UI.createImageView({
 	left: 20,
 	imageAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 });
-
+/*
 //Let's put up the title of the page
 var toDoTitle = Ti.UI.createLabel({
 	text: 'To Do List',
@@ -96,11 +97,88 @@ var toDoTitle = Ti.UI.createLabel({
 	color: 'white',
 	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 });
+*/
 
-var toDoList = Ti.UI.createTabGroup({
-	top: 50
-});
 
+
+
+//-----------------------------------------------------------SQLite---------------------------------------------------------------------
+//======================================================================================================================================
+
+/*
+//add a single variable to the global scope to which we may choose to
+	//intentionally add items to
+	var globals = {};
+	
+	//create a private scope to prevent further polluting the global object
+	(function() {
+		var AppTabGroup = require('ui/AppTabGroup').AppTabGroup,
+			ListWindow = require('ui/ListWindow').ListWindow,
+			AddWindow = require('ui/AddWindow').AddWindow;
+		
+		// Initialize local storage
+		require('db').createDb();
+		
+		//create our global tab group	
+		globals.tabs = new AppTabGroup(
+			{
+				title: 'To Do List',
+				icon: 'images/KS_nav_ui.png',
+				window: new ListWindow({
+					title: 'To Do',
+					backgroundColor: '#fff',
+					navBarHidden: false,
+					isDone: 0,
+					activity: {
+						onCreateOptionsMenu: function(e) {
+							var menu = e.menu;
+						    var menuItem = menu.add({ title: "Add Task" });
+						    menuItem.setIcon("images/ic_menu_add.png");
+						    menuItem.addEventListener("click", function(e) {
+						        new AddWindow().open();
+						    });
+						}
+					}
+				})
+			},
+			{
+				title: 'Done',
+				icon: 'images/KS_nav_views.png',
+				window: new ListWindow({
+					title: 'Done',
+					backgroundColor: '#fff',
+					navBarHidden: false,
+					isDone: 1
+				})
+			}
+		);
+		
+		globals.tabs.open();
+	})();
+	
+	
+	
+	*/
+	
+	
+	
+	
+	
+/*
+var toDoList = Ti.UI.createTabGroup({editable: true});
+	
+var db = Ti.Database.install('bb.db', 'bbdatabase1');
+
+var sql = db.execute("SELECT tasks FROM todo");
+
+var data = [];
+
+while(sql.isValidRow()) {
+	
+	
+}
+*/
+/*
 var toDoTab1win = Ti.UI.createWindow({
 	title: 'To Do',
 	backgroundColor: 'white'
@@ -127,37 +205,38 @@ var doneToDo = Ti.UI.createTab({
 toDoList.addTab(toDo);
 toDoList.addTab(doneToDo);
 
-
+*/
 toDoTopView.add(smallLogoImage);
-toDoTopView.add(toDoTitle);
+//toDoTopView.add(toDoTitle);
 
-/*
+
 toDoWin.add(toDoTopView);
 toDoWin.add(toDoView);
-*/
+
 //------------------------------------------------------------DATABASE-------------------------------------------------------------------------
 //=============================================================================================================================================
 
-/*
- var db = Ti.Database.install('bb.db', 'bbdatabase');
+/*var testSQLwin = Ti.UI.createWindow();
 
+ 
 
 function writeName(){
 //Name of table is todo
 //Name of column is tasks
 
-var db = Ti.Database.open('bbdatabase');
+
+var db = Ti.Database.open('bbdatabase1');
 db.execute("INSERT INTO todo (tasks) VALUES ('Save the date!')");
 
 var sql = db.execute("SELECT tasks FROM todo");
 
 var name = sql.fieldByName('tasks');
 
-alert(name);
+var test = alert(name);
 
 db.close();
 }
-*/
+
 
 
 
@@ -192,7 +271,7 @@ db.close();
 
 
 
-
+*/
 //------------------------------------------------------LOGIN SCREEN---------------------------------------------------------------------
 //=======================================================================================================================================
 
@@ -200,13 +279,10 @@ db.close();
 //Figure out later --- Confusing
 /*
 //Add event listener - this will open the login window
-loginButton.addEventListener('click',function(e){
+toLoginButton.addEventListener('click',function(e){
 	Ti.UI.loginWin.open();
 });
 */
-
-/*
-
 
 
 
@@ -237,9 +313,75 @@ var loginTitle = Ti.UI.createLabel({
 	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT
 });
 
-*/
+var loginUser = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Your username or email',
+	height: 70,
+	width: 250,
+	top: 50,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+
+loginWin.addEventListener("click", function(e){
+	loginUser.blur();
+});
+
+var loginPassword = Ti.UI.createTextField({
+	color: 'black',
+	hintText: 'Your password',
+	height: 70,
+	width: 250,
+	top: 100,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	keyboardType: Ti.UI.KEYBOARD_DEFAULT
+});
+
+loginWin.addEventListener("click", function(e){
+	loginPassword.blur();
+});
+
+var loginButton = Ti.UI.createButton({
+	title: 'Login',
+	height: 45,
+	width: 200,
+	bottom: 225,
+	color: 'white',
+	backgroundColor: '#1589FF'
+});
+//Login to the mobile app
+
+loginButton.addEventListener("click", function(e){
+	
+Cloud.Users.login({
+    login: loginUser.value,
+    password: loginPassword.value
+}, function (e) {
+    if (e.success) {
+        var user = e.users[0];
+        alert('Success:\n' +
+            'id: ' + user.id + '\n' +
+            'sessionId: ' + Cloud.sessionId + '\n' +
+            'first name: ' + user.first_name + '\n' +
+            'last name: ' + user.last_name);
+    } else {
+        alert('Error:\n' +
+            ((e.error && e.message) || JSON.stringify(e)));
+    }
+});
+});
+
+//Add top view
+loginTopView.add(smallLogoImage);
+loginTopView.add(loginTitle);
+
+loginWin.add(loginTopView);
+loginWin.add(loginView);
 
 
+loginView.add(loginUser);
+loginView.add(loginPassword);
+loginView.add(loginButton);
 
 
 
@@ -438,7 +580,7 @@ Cloud.Users.create({
     email: email.value,
     first_name: firstName.value,
     last_name: lastName.value,
-    weddingDate: weddingDateResult.value
+    weddingDate: weddingDate.value
 }, function (e) {
     if (e.success) {
         var user = e.users[0];
@@ -451,6 +593,7 @@ Cloud.Users.create({
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
     }
+});
 });
 
 
@@ -490,7 +633,7 @@ mainTopView.add(mainTitle);
 //Let's add our image
 mainView.add(logoImage);
 //Add login button to view and view to window
-mainView.add(loginButton);
+mainView.add(toLoginButton);
 //Add the "Sign Up" button to view
 
 mainView.add(signUpButton);
